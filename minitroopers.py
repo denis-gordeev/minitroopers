@@ -48,16 +48,28 @@ def battles(nick):
 
     f = opener.open("http://"+ nick +".minitroopers.com"+opponents_list[your_opponent][2])
 
-    print("http://"+ nick +".minitroopers.com"+opponents_list[your_opponent][2])
+    #print("http://"+ nick +".minitroopers.com"+opponents_list[your_opponent][2])
     r = f.read()
     print('Your opponent is', opponents_list[your_opponent][0])
     print ('His strength is', opponents_list[your_opponent][1])
     key = re.findall('chk.*',opponents_list[your_opponent][2])
     missions(key)
-def missions(key):
-    print ("Some missions here")
-    f = opener.open("http://"+nick+".minitroopers.com/b/mission?"+key[0])
+    raids(key)
+    f = opener.open("http://"+ nick +".minitroopers.com/t/0")
+    r = f.read()
+    soup = BeautifulSoup(r)
+    money = int(soup.findAll("div", { "class" : "money" })[0].get_text())
+    upgrade_cost = soup.findAll("a", { "class" : "but_bg b3_bg img" })[0].get_text()
+    upgrade_cost = int(re.sub("[^0-9]", "", upgrade_cost))
+    if money > upgrade_cost:
+        print ("You can upgrade this coldier, follow the link:", "http://"+ nick +".minitroopers.com/t/0?levelup="+ key)
 
+def missions(key):
+    print ("Some missions here...")
+    f = opener.open("http://"+nick+".minitroopers.com/b/mission?"+key[0])
+def raids(key):
+    print ("Raiding...")
+    f = opener.open("http://"+nick+".minitroopers.com/b/raid?"+key[0])
 for nick in nicks:
     for _ in itertools.repeat(None, 3):
         battles(nick)
