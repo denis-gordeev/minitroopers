@@ -62,7 +62,7 @@ def battles(nick):
     upgrade_cost = soup.findAll("a", { "class" : "but_bg b3_bg img" })[0].get_text()
     upgrade_cost = int(re.sub("[^0-9]", "", upgrade_cost))
     if money > upgrade_cost:
-        print ("You can upgrade this coldier, follow the link:", "http://"+ nick +".minitroopers.com/t/0?levelup="+ key[0])
+        print ("You can upgrade this soldier, follow the link:", "http://"+ nick +".minitroopers.com/t/0?levelup="+ key[0])
 
 def missions(key):
     print ("Some missions here...")
